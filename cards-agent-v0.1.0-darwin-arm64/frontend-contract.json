@@ -1,0 +1,226 @@
+{
+  "contractVersion": "1.0.0",
+  "protocol": {
+    "name": "AG-UI",
+    "transport": "HTTP with Server-Sent Events",
+    "runEndpoint": "/api/agui",
+    "clientPackage": "@ag-ui/client"
+  },
+  "identity": {
+    "demoHeader": "X-Demo-User",
+    "note": "Replace the demo header with authenticated identity middleware in production."
+  },
+  "tools": [
+    {
+      "name": "list_cards",
+      "execution": "server",
+      "description": "Lists the signed-in user's cards.",
+      "requiresConfirmation": false,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$ref": "#/$defs/cardsResult"
+      },
+      "recommendedUI": "CardList"
+    },
+    {
+      "name": "block_card",
+      "execution": "server",
+      "description": "Blocks a card identified by its last four digits.",
+      "requiresConfirmation": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "last_four": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
+          }
+        },
+        "required": [
+          "last_four"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$ref": "#/$defs/blockCardResult"
+      },
+      "recommendedUI": "BlockCardApproval"
+    }
+  ],
+  "supportedEvents": [
+    "RUN_STARTED",
+    "STATE_SNAPSHOT",
+    "TOOL_CALL_START",
+    "TOOL_CALL_ARGS",
+    "TOOL_CALL_END",
+    "TOOL_CALL_RESULT",
+    "TEXT_MESSAGE_START",
+    "TEXT_MESSAGE_CONTENT",
+    "TEXT_MESSAGE_END",
+    "RUN_FINISHED",
+    "RUN_ERROR"
+  ],
+  "stateSchema": {
+    "type": "object",
+    "properties": {
+      "cards": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/card"
+        }
+      },
+      "userId": {
+        "type": "string"
+      },
+      "agentMode": {
+        "enum": [
+          "scripted",
+          "gemini"
+        ]
+      }
+    },
+    "required": [
+      "cards",
+      "userId",
+      "agentMode"
+    ],
+    "additionalProperties": false
+  },
+  "interrupt": {
+    "reason": "tool_call",
+    "maxConcurrent": 1,
+    "resumeStatuses": [
+      "resolved",
+      "cancelled"
+    ],
+    "approvalEndpoint": "/api/confirmations/verify",
+    "resolvedPayloadSchema": {
+      "type": "object",
+      "properties": {
+        "confirmationToken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "confirmationToken"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "verificationErrors": [
+    {
+      "httpStatus": 400,
+      "code": "invalid_request",
+      "ui": "Show an inline field or form error."
+    },
+    {
+      "httpStatus": 401,
+      "code": "verification_failed",
+      "ui": "Keep the approval open, mark MPIN invalid, show the message, and allow retry."
+    },
+    {
+      "httpStatus": 403,
+      "code": "verification_failed",
+      "ui": "Close the approval and require a new authenticated session."
+    },
+    {
+      "httpStatus": 404,
+      "code": "verification_failed",
+      "ui": "Close the approval and tell the user the request is no longer available."
+    },
+    {
+      "httpStatus": 429,
+      "code": "verification_failed",
+      "ui": "Disable retry and show that too many attempts were made."
+    }
+  ],
+  "recommendedComponents": [
+    "MessageList",
+    "MessageComposer",
+    "AgentRunStatus",
+    "CardList",
+    "CardStatusBadge",
+    "ToolActivity",
+    "BlockCardApproval",
+    "MPINInput",
+    "InlineError"
+  ],
+  "limits": {
+    "simultaneousInterrupts": 1,
+    "supportedMessageInput": "non-empty user text",
+    "clientExecutedTools": false,
+    "attachments": false,
+    "voice": false
+  },
+  "$defs": {
+    "card": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastFour": {
+          "type": "string",
+          "pattern": "^[0-9]{4}$"
+        },
+        "network": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "active",
+            "blocked"
+          ]
+        },
+        "color": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "lastFour",
+        "network",
+        "status",
+        "color"
+      ],
+      "additionalProperties": false
+    },
+    "cardsResult": {
+      "type": "object",
+      "properties": {
+        "cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/card"
+          }
+        }
+      },
+      "required": [
+        "cards"
+      ],
+      "additionalProperties": false
+    },
+    "blockCardResult": {
+      "type": "object",
+      "properties": {
+        "card": {
+          "$ref": "#/$defs/card"
+        },
+        "status": {
+          "const": "blocked"
+        }
+      },
+      "required": [
+        "card",
+        "status"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

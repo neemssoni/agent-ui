@@ -1,0 +1,46 @@
+{
+  "incorrectMPIN": {
+    "httpStatus": 401,
+    "body": {
+      "error": {
+        "code": "verification_failed",
+        "message": "verification failed"
+      }
+    }
+  },
+  "tooManyAttempts": {
+    "httpStatus": 429,
+    "body": {
+      "error": {
+        "code": "verification_failed",
+        "message": "too many verification attempts"
+      }
+    }
+  },
+  "success": {
+    "httpStatus": 200,
+    "body": {
+      "confirmationToken": "fixture-one-time-token",
+      "expiresInSeconds": 300
+    }
+  },
+  "resolvedResume": {
+    "resume": [
+      {
+        "interruptId": "interrupt-block-fixture",
+        "status": "resolved",
+        "payload": {
+          "confirmationToken": "fixture-one-time-token"
+        }
+      }
+    ]
+  },
+  "cancelledResume": {
+    "resume": [
+      {
+        "interruptId": "interrupt-block-fixture",
+        "status": "cancelled"
+      }
+    ]
+  }
+}

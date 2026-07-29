@@ -1,0 +1,40 @@
+{
+  "toolCall": {
+    "id": "call-block-fixture",
+    "name": "block_card",
+    "args": {
+      "last_four": "4242"
+    }
+  },
+  "runFinished": {
+    "type": "RUN_FINISHED",
+    "threadId": "thread-fixture",
+    "runId": "run-block-fixture",
+    "outcome": {
+      "type": "interrupt",
+      "interrupts": [
+        {
+          "id": "interrupt-block-fixture",
+          "reason": "tool_call",
+          "message": "Confirm blocking the card ending 4242.",
+          "toolCallId": "call-block-fixture",
+          "responseSchema": {
+            "type": "object",
+            "properties": {
+              "confirmationToken": {
+                "type": "string"
+              }
+            },
+            "required": ["confirmationToken"],
+            "additionalProperties": false
+          },
+          "expiresAt": "2099-01-01T00:00:00Z",
+          "metadata": {
+            "toolName": "block_card",
+            "lastFour": "4242"
+          }
+        }
+      ]
+    }
+  }
+}

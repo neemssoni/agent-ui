@@ -1,0 +1,75 @@
+[
+  {
+    "type": "RUN_STARTED",
+    "threadId": "thread-fixture",
+    "runId": "run-list-fixture"
+  },
+  {
+    "type": "STATE_SNAPSHOT",
+    "snapshot": {
+      "agentMode": "scripted",
+      "userId": "fixture-user",
+      "cards": [
+        {
+          "id": "card-everyday",
+          "name": "Everyday Debit",
+          "lastFour": "4242",
+          "network": "Visa",
+          "status": "active",
+          "color": "plum"
+        },
+        {
+          "id": "card-travel",
+          "name": "Travel Rewards",
+          "lastFour": "9012",
+          "network": "Mastercard",
+          "status": "active",
+          "color": "mint"
+        }
+      ]
+    }
+  },
+  {
+    "type": "TOOL_CALL_START",
+    "toolCallId": "call-list-fixture",
+    "toolCallName": "list_cards"
+  },
+  {
+    "type": "TOOL_CALL_ARGS",
+    "toolCallId": "call-list-fixture",
+    "delta": "{}"
+  },
+  {
+    "type": "TOOL_CALL_END",
+    "toolCallId": "call-list-fixture"
+  },
+  {
+    "type": "TOOL_CALL_RESULT",
+    "messageId": "tool-result-list-fixture",
+    "toolCallId": "call-list-fixture",
+    "role": "tool",
+    "content": "{\"cards\":[{\"id\":\"card-everyday\",\"name\":\"Everyday Debit\",\"lastFour\":\"4242\",\"network\":\"Visa\",\"status\":\"active\",\"color\":\"plum\"},{\"id\":\"card-travel\",\"name\":\"Travel Rewards\",\"lastFour\":\"9012\",\"network\":\"Mastercard\",\"status\":\"active\",\"color\":\"mint\"}]}"
+  },
+  {
+    "type": "TEXT_MESSAGE_START",
+    "messageId": "assistant-list-fixture",
+    "role": "assistant"
+  },
+  {
+    "type": "TEXT_MESSAGE_CONTENT",
+    "messageId": "assistant-list-fixture",
+    "delta": "Here are your cards."
+  },
+  {
+    "type": "TEXT_MESSAGE_END",
+    "messageId": "assistant-list-fixture"
+  },
+  {
+    "type": "RUN_FINISHED",
+    "threadId": "thread-fixture",
+    "runId": "run-list-fixture",
+    "outcome": {
+      "type": "success"
+    }
+  }
+]

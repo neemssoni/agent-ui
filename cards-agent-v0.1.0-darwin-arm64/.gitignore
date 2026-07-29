@@ -1,0 +1,107 @@
+# ==========================================
+# Operating System & IDE Files
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.user
+*.suo
+
+# ==========================================
+# Go Backend Ignores
+# ==========================================
+# Executables and Binaries
+cards-agent
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go Build/Test Output
+/bin/
+/dist/
+*.cover
+*.pprof
+
+# Environment Variables & Local Secrets
+.env
+.env.local
+
+# Unpacked Release Bundles / Archives
+*.zip
+*.tar.gz
+__MACOSX/
+
+# ==========================================
+# Flutter / Dart Frontend Ignores
+# ==========================================
+# Flutter / Dart Build & Generated Files
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Symbol & Log Files
+*.darth
+*.g.dart
+*.freezed.dart
+*.log
+
+# Android Specifics
+/android/app/debug/
+/android/app/profile/
+/android/app/release/
+/android/app/src/main/assets/
+/android/app/src/main/java/io/flutter/plugins/
+/android/.gradle/
+/android/captures/
+/android/gradlew
+/android/gradlew.bat
+/android/local.properties
+/android/key.properties
+*.keystore
+
+# iOS Specifics
+/ios/Flutter/App.framework
+/ios/Flutter/Flutter.framework
+/ios/Flutter/Flutter.podspec
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/app.flframework
+/ios/Runner/GeneratedPluginRegistrant.h
+/ios/Runner/GeneratedPluginRegistrant.m
+/ios/Pods/
+/ios/Podfile.lock
+/ios/DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserdata
+
+# macOS Platform Specifics
+/macos/Flutter/ephemeral/
+/macos/Pods/
+/macos/Podfile.lock
+
+# Web Specifics
+/web/icons/
+
+# Linux / Windows Specifics
+/linux/flutter/ephemeral/
+/windows/flutter/ephemeral/
