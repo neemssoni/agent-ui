@@ -21,7 +21,6 @@ Thumbs.db
 # Go Backend Ignores
 # ==========================================
 # Executables and Binaries
-cards-agent
 *.exe
 *.exe~
 *.dll
