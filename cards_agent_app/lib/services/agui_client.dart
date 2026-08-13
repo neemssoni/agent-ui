@@ -15,6 +15,7 @@ class AgUiClient {
   String? threadId,
   String? runId,
   String? userPrompt,
+  String? toolVariant,
   List<Map<String, dynamic>>? resumePayload,
 }) async* {
   final uri = Uri.parse('$baseUrl/api/agui');
@@ -42,6 +43,10 @@ class AgUiClient {
     body['messages'] = [
       {'role': 'user', 'content': userPrompt.trim()}
     ];
+  }
+
+  if (toolVariant != null && toolVariant.isNotEmpty) {
+    body['toolVariant'] = toolVariant;
   }
 
   if (resumePayload != null && resumePayload.isNotEmpty) {

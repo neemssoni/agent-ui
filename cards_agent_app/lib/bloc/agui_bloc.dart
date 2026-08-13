@@ -131,6 +131,44 @@ class AgentBloc extends Cubit<AgentState> {
   }
 }
 
+void sendMessageWithVariant(String text, String variant) async {
+  final trimmedText = text.trim();
+  if (trimmedText.isEmpty) return;
+
+  final userMsg = MessageModel(
+    id: DateTime.now().millisecondsSinceEpoch.toString(),
+    role: 'user',
+    content: trimmedText,
+  );
+  final updatedMessages = List<MessageModel>.from(state.messages)..add(userMsg);
+
+  final activeThread = (state.threadId != null && state.threadId!.trim().isNotEmpty)
+      ? state.threadId!
+      : 'thread-1';
+
+  final uniqueRunId = 'run-${DateTime.now().millisecondsSinceEpoch}';
+
+  emit(state.copyWith(
+    messages: updatedMessages,
+    threadId: activeThread,
+    isRunning: true,
+  ));
+
+  try {
+    // Pass the toolVariant parameter to your client
+    final stream = client.sendRun(
+      threadId: activeThread,
+      runId: uniqueRunId,
+      userPrompt: trimmedText,
+      toolVariant: variant, // Sends either 'list_cards' or 'list_cards_v2'
+    );
+    await _processSseStream(stream);
+  } catch (e) {
+    print("AG-UI Stream Error: $e");
+    emit(state.copyWith(isRunning: false));
+  }
+}
+
   Future<void> _processSseStream(Stream<Map<String, dynamic>> stream) async {
     await for (final event in stream) {
       final type = event['type'];
